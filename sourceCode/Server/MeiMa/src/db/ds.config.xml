@@ -1,0 +1,11 @@
+<ds-config>
+<pool>
+<type>mysql</type>
+<name>meima</name>
+<driver>com.mysql.jdbc.Driver</driver>
+<url>jdbc:mysql://localhost:3306/meima</url>
+<username>root</username>
+<password>123456</password>
+<maxconn>100</maxconn>
+</pool>
+</ds-config>
