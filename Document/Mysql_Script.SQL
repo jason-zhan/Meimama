@@ -52,25 +52,6 @@ CREATE TABLE `meima`.`childboard` (
 
 
 
-CREATE TABLE `meima`.`posts` (
-  `Post_id` INT NOT NULL AUTO_INCREMENT,
-  `Post_Title` VARCHAR(45) NULL,
-  `Post_BiBoid` INT NULL,
-  `Post_BiBoid` INT NULL,
-  `Post_admin` VARCHAR(45) NULL,
-  `Post_createtime` TIMESTAMP NULL DEFAULT now(),
-  `Post_updatetime` TIMESTAMP NULL DEFAULT now(),
-  `Post_content` VARCHAR(250) NULL,
-  `Post_goodcount` INT NULL,
-  `Post_badcount` INT NULL,
-  `Post_reward` INT NULL,
-  `Post_score` INT NULL,
-  `Post_ispay` INT NULL,
-  `Post_ispay` INT NULL,
-  PRIMARY KEY (`Post_id`),
-  UNIQUE INDEX `Post_id_UNIQUE` (`Post_id` ASC));
-
-
 
 CREATE TABLE `meima`.`posts` (
   `Post_id` INT NOT NULL AUTO_INCREMENT,
@@ -79,7 +60,7 @@ CREATE TABLE `meima`.`posts` (
   `Post_SmBoid` INT NULL,
   `Post_admin` VARCHAR(45) NULL,
   `Post_createtime` TIMESTAMP NULL DEFAULT now(),
-  `Post_updatetime` TIMESTAMP NULL DEFAULT now(),
+  `Post_updatetime` TIMESTAMP NULL,
   `Post_content` VARCHAR(250) NULL,
   `Post_goodcount` INT NULL,
   `Post_badcount` INT NULL,
@@ -135,8 +116,8 @@ CREATE TABLE `meima`.`checkcode` (
   `codecode` VARCHAR(45) NULL,
   `ip` VARCHAR(45) NULL,
   `createAt` TIMESTAMP NULL DEFAULT now(),
-  `expireAt` TIMESTAMP NULL DEFAULT now(),
+  `expireAt` TIMESTAMP NULL,
   `isUse` INT NULL,
-  `usingAt` TIMESTAMP NULL DEFAULT now(),
+  `usingAt` TIMESTAMP NULL,
   UNIQUE INDEX `idcheckcode_UNIQUE` (`idcheckcode` ASC));
 
