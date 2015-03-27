@@ -1,0 +1,12 @@
+方案一 
+  1.
+先把
+eclipse
+
+关闭.   2.在管理器转到你的android SDK 的platform-tools下, 如图:      3.键入adb kill-server ,如果adb关闭了会提示 server not running *   4.再输入adb start-server  如果不成功会提示 daemon not running. starting it now on port  ***的       而如果成功的话不提示任何语句的.这时再重新打开eclipse就可以正常运行模拟器的了.   方案二   真机调试的时候,你开了腕豆夹,导致端口冲突了,前面一直没留意这个问题，解决办法：安装完手机的驱动后，关闭腕豆夹,重启eclipse，应该就可以了。腕豆夹与eclipse一般不同时打开！   方案三   在任务管理器中杀死adb.exe，然后重启Eclipse。   方案四   platform-tools中是否有adb.exe（我的错误就是在相关路径下面没有platform-tools文件夹 ，所以我选择新建一个文件夹，并且把tools中的文件全部复制到platform-tools中）   方案五   右键项目——>Android Tools ——>Fix Project Properties，再run。   
+ 
+
+     方案六   做测试时候，关掉腾讯管家，或其他手机   方案七   androidadbshell:unknown host service  我们在Windows DOS窗口中输入adb shell后，会出现如下错误： adb server is out of date.  killing... ADB server didn't ACK * failed to start daemon * error: unknown host service   ，出现这问题是因为你的电脑上安装了豌豆夹造成的，只需打开“任务管理器”，找到'wandoujia_helper.exe'，把这个进行终止掉就可以，     
+方案八  adb server端的端口绑定失败，要关掉占用端口的进程
+
+  [html] view plaincopy  C:\Users\xxxx>adb nodaemon server   cannot bind 'tcp:5037'   原来adb server 端口绑定失败   继续查看到底是哪个端口给占用了 [html] view plaincopy  C:\Users\xxxxxx>netstat -ano | findstr "5037"      TCP    127.0.0.1:5037         0.0.0.0:0              LISTENING       4236     TCP    127.0.0.1:5037         127.0.0.1:49422        ESTABLISHED     4236     TCP    127.0.0.1:49422        127.0.0.1:5037         ESTABLISHED     3840   打开任务管理器kill掉4236 这个进程。ok   cmd执行   tasklist|findstr "4236 "  打开任务管理器， 找到进程名， 然后结束进程树。
