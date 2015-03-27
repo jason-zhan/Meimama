@@ -1,0 +1,33 @@
+相信我们在做项目的时候都会遇到这样的问题，实现应用程序只有在第一次启动时显示引导界面 ,以后就不在显示了但是在巴士上面找了下,还真不好找，可能是觉得这样的例子网上很多吧。但是我还是想小分享下。
+
+他的实现就是：
+第一次安装启动：启动页--->导航页-->主页面
+之后启动：启动页-->主页面
+实现的原理就是：
+
+在启动页面用做一个文件保存的状态,保存程序是不是第一次启动的状态。因为只是要保存一个状态，我们将这个程序是第一次打开就将他设为true,当他进入主页面之后将他的状态未为false，因为都进入到主页面了说明他之后肯定不是第一次启动程序,因为状态的字符也不多，所以大家都使用SharedPreferences来实现。
+判断这个状态是不是第一次启动如果是就走：启动页--->导航页-->主页面这个路线。不是就走：启动页-->主页面这个路线。
+下面是我在启动页面进行的操作，程序第一次启动，他的状态设为true.
+               //读取SharedPreFerences中需要的数据,使用SharedPreFerences来记录程序启动的使用次数
+                SharedPreferences preferences = getSharedPreferences(SHAREDPREFERENCES_NAME, MODE_PRIVATE);
+                //取得相应的值,如果没有该值,说明还未写入,用true作为默认值
+                isFirstIn = preferences.getBoolean("isFirstIn", true);
+                //判断程序第几次启动
+                if (!isFirstIn) {
+                        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                SplashActivity.this.startActivity(intent);
+                SplashActivity.this.finish();
+                } else {
+                        Intent intent = new Intent(SplashActivity.this, GuideActivity.class);
+                SplashActivity.this.startActivity(intent);
+                SplashActivity.this.finish();
+                }
+
+
+当程序进入主页面的时候，他之后启动肯定就不是第一次启动了。所以我们可以在界面，或者是调用主页面的步骤中将他的状态设为false.
+                                                SharedPreferences preferences = getSharedPreferences(SHAREDPREFERENCES_NAME, Context.MODE_PRIVATE);
+                                                Editor editor = preferences.edit();
+
+                                                editor.putBoolean("isFirstIn", false);
+                                                // 提交修改
+                                                editor.commit();                      那么这样就可以实现了，当程序第二次进入的时候，在启动也就进行了判断。。if() else() 就执行了你想让他执行的操作。
