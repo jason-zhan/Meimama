@@ -4,6 +4,7 @@ package com.meima.ui;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.meima.R;
 import com.meima.ui.MyListView.OnRefreshListener;
@@ -12,7 +13,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -23,15 +27,18 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainWeixin extends Activity {
@@ -60,6 +67,8 @@ public class MainWeixin extends Activity {
 	private ArrayList<HashMap<String, Object>>   listItems;    //存放文字、图片信息
     private SimpleAdapter listItemAdapter;           //适配器    
 
+    private List<Map<String, Object>> data;
+    private ListView lv;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,6 +76,13 @@ public class MainWeixin extends Activity {
         setContentView(R.layout.main_weixin);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); 
         instance = this;
+        
+        SharedPreferences preferences = getSharedPreferences("share", Context.MODE_PRIVATE);
+        Editor editor = preferences.edit();
+
+        //editor.putBoolean("isFirstIn", false);
+        // 提交修改
+        //editor.commit();  
         /*
         mRightBtn = (Button) findViewById(R.id.right_btn);
         mRightBtn.setOnClickListener(new Button.OnClickListener()
@@ -89,7 +105,7 @@ public class MainWeixin extends Activity {
         mTab2.setOnClickListener(new MyOnClickListener(1));
         mTab3.setOnClickListener(new MyOnClickListener(2));
         mTab4.setOnClickListener(new MyOnClickListener(3));
-        Display currDisplay = getWindowManager().getDefaultDisplay();//��ȡ��Ļ��ǰ�ֱ���
+        Display currDisplay = getWindowManager().getDefaultDisplay();
         int displayWidth = currDisplay.getWidth();
         int displayHeight = currDisplay.getHeight();
         one = displayWidth/4; //����ˮƽ����ƽ�ƴ�С
@@ -97,8 +113,12 @@ public class MainWeixin extends Activity {
         three = one*3;
         
         LayoutInflater mLi = LayoutInflater.from(this);
-        View view1 = mLi.inflate(R.layout.main_tab_weixin, null);
-        //View view1 = mLi.inflate(R.layout.main_mei_list, null);
+        //View view1 = mLi.inflate(R.layout.main_tab_weixin, null);
+        View view1 = mLi.inflate(R.layout.main_tab_meima, null);
+        data = getData();
+        MyAdapter adapter = new MyAdapter(this,data);
+        lv = (ListView)view1.findViewById(R.id.meima_tab);
+        lv.setAdapter(adapter);
         View view2 = mLi.inflate(R.layout.main_tab_address, null);
         View view3 = mLi.inflate(R.layout.main_tab_friends, null);
         View view4 = mLi.inflate(R.layout.main_tab_settings, null);
@@ -144,6 +164,23 @@ public class MainWeixin extends Activity {
 		//lv.setAdapter(adapter);
 		mTabPager.setAdapter(mPagerAdapter);
     }
+    private List<Map<String, Object>> getData()
+    {
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+        Map<String, Object> map;
+        String [] titleStr = {"情感天空","新手报道","两性健康","美食厨房","幼儿园宝宝","时尚达人"};
+        for(int i = 0; i < 6; i++) {
+        map = new HashMap<String, Object>();
+        map.put("img", R.drawable.lxia);
+        map.put("title", titleStr[i]);
+        map.put("date", "today");
+        map.put("info", "快乐源于生活...");
+        list.add(map);
+        }
+        
+        return list;
+    }
+                  
     public class MyOnClickListener implements View.OnClickListener {
 		private int index = 0;
 
@@ -202,8 +239,6 @@ public class MainWeixin extends Activity {
    */
 	
     
-	 /* ҳ���л�����(ԭ����:D.Winter)
-	 */
 	public class MyOnPageChangeListener implements OnPageChangeListener {
 		@Override
 		public void onPageSelected(int arg0) {
@@ -298,13 +333,9 @@ public class MainWeixin extends Activity {
     	
     	else if(keyCode == KeyEvent.KEYCODE_MENU){   //��ȡ Menu��			
 			if(!menu_display){
-				//��ȡLayoutInflaterʵ��
 				inflater = (LayoutInflater)this.getSystemService(LAYOUT_INFLATER_SERVICE);
-				//�����main��������inflate�м����Ŷ����ǰ����ֱ��this.setContentView()�İɣ��Ǻ�
-				//�÷������ص���һ��View�Ķ����ǲ����еĸ�
 				layout = inflater.inflate(R.layout.main_menu, null);
 				
-				//��������Ҫ�����ˣ����������ҵ�layout���뵽PopupWindow���أ������ܼ�
 				menuWindow = new PopupWindow(layout,LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT); //������������width��height
 				//menuWindow.showAsDropDown(layout); //���õ���Ч��
 				//menuWindow.showAsDropDown(null, 0, layout.getHeight());
@@ -314,9 +345,7 @@ public class MainWeixin extends Activity {
 				mCloseBtn = (LinearLayout)layout.findViewById(R.id.menu_close_btn);
 				
 				
-				//�����ÿһ��Layout���е����¼���ע��ɡ�����
-				//���絥��ĳ��MenuItem��ʱ�����ı���ɫ�ı�
-				//����׼����һЩ����ͼƬ������ɫ
+				
 				mCloseBtn.setOnClickListener (new View.OnClickListener() {					
 					@Override
 					public void onClick(View arg0) {						
@@ -338,18 +367,17 @@ public class MainWeixin extends Activity {
 		}
     	return false;
     }
-	//���ñ������Ҳఴť������
 	public void btnmainright(View v) {  
 		Intent intent = new Intent (MainWeixin.this,MainTopRightDialog.class);			
 		startActivity(intent);	
 		//Toast.makeText(getApplicationContext(), "����˹��ܰ�ť", Toast.LENGTH_LONG).show();
       }  	
-	public void startchat(View v) {      //С��  �Ի�����
-		Intent intent = new Intent (MainWeixin.this,ChatActivity.class);			
+	public void startchat(View v) {      
+		Intent intent = new Intent (MainWeixin.this,ForumActivity.class);			
 		startActivity(intent);	
 		//Toast.makeText(getApplicationContext(), "��¼�ɹ�", Toast.LENGTH_LONG).show();
       }  
-	public void exit_settings(View v) {                           //�˳�  α���Ի��򡱣���ʵ��һ��activity
+	public void exit_settings(View v) {                           
 		Intent intent = new Intent (MainWeixin.this,ExitFromSettings.class);			
 		startActivity(intent);	
 	 }
@@ -357,6 +385,76 @@ public class MainWeixin extends Activity {
 		Intent intent = new Intent (MainWeixin.this,ShakeActivity.class);			
 		startActivity(intent);	
 	}
+	
+	
+	//ViewHolder静态类
+    static class ViewHolder
+    {
+        public ImageView img;
+        public TextView title;
+        public TextView date;
+        public TextView info;
+    }
+                                                     
+    public class MyAdapter extends BaseAdapter
+    {   
+        private LayoutInflater mInflater = null;
+        List<Map<String, Object>> mlist;
+        private MyAdapter(Context context, List<Map<String, Object>> list)
+        {
+            //根据context上下文加载布局，这里的是Demo17Activity本身，即this
+            this.mInflater = LayoutInflater.from(context);
+            mlist = list;
+        }
+        @Override
+        public int getCount() {
+            //How many items are in the data set represented by this Adapter.
+            //在此适配器中所代表的数据集中的条目数
+            return data.size();
+        }
+        @Override
+        public Object getItem(int position) {
+            // Get the data item associated with the specified position in the data set.
+            //获取数据集中与指定索引对应的数据项
+            return position;
+        }
+        @Override
+        public long getItemId(int position) {
+            //Get the row id associated with the specified position in the list.
+            //获取在列表中与指定索引对应的行id
+            return position;
+        }
+                                                         
+        //Get a View that displays the data at the specified position in the data set.
+        //获取一个在数据集中指定索引的视图来显示数据
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder = null;
+            //如果缓存convertView为空，则需要创建View
+            if(convertView == null)
+            {
+                holder = new ViewHolder();
+                //根据自定义的Item布局加载布局
+                convertView = mInflater.inflate(R.layout.main_mei_list, null);
+                holder.img = (ImageView)convertView.findViewById(R.id.image);
+                holder.title = (TextView)convertView.findViewById(R.id.title);
+                holder.date =(TextView)convertView.findViewById(R.id.date);
+                holder.info = (TextView)convertView.findViewById(R.id.text);
+                //将设置好的布局保存到缓存中，并将其设置在Tag里，以便后面方便取出Tag
+                convertView.setTag(holder);
+            }else
+            {
+                holder = (ViewHolder)convertView.getTag();
+            }
+            holder.img.setBackgroundResource((Integer)mlist.get(position).get("img"));
+            holder.title.setText((String)mlist.get(position).get("title"));
+            holder.date.setText((String)mlist.get(position).get("date"));
+            holder.info.setText((String)mlist.get(position).get("info"));
+                                                             
+            return convertView;
+        }
+                                                         
+    }
 }
     
     

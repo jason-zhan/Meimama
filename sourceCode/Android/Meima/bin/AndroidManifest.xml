@@ -11,6 +11,8 @@
     
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    
     
     
 
@@ -30,6 +32,7 @@
         </activity>
         <activity android:name="com.meima.ui.WhatsnewDoor" android:theme="@style/Anim_style2" />
         <activity android:name="com.meima.ui.MainWeixin" android:theme="@style/Anim_style2" />
+        <activity android:name="com.meima.ui.ForumActivity" android:theme="@style/Anim_style2" />
         <activity android:name="com.meima.ui.Login"  android:theme="@android:style/Theme.NoTitleBar" />        
         <activity android:name="com.meima.ui.Welcome"  android:theme="@style/Anim_style2"  />
          <activity android:name="com.meima.ui.Register"  android:theme="@style/Anim_style2"  />
