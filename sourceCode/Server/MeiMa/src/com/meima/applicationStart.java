@@ -7,7 +7,7 @@ import db.ParseDSConfig;
 
 public final class applicationStart implements ServletContextListener{
    public void contextInitialized(ServletContextEvent event){
-	     ParseDSConfig pd=new ParseDSConfig();
+	      ParseDSConfig pd=new ParseDSConfig();
 		  String path="ds.config.xml";
 		  pd.readConfigInfo(path);
    }

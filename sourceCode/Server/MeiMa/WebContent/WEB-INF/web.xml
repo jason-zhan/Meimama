@@ -18,6 +18,7 @@
     </listener-class>
   
   </listener>
+  
   <servlet-mapping>
     <servlet-name>MyRestService</servlet-name>
     <url-pattern>/*</url-pattern>

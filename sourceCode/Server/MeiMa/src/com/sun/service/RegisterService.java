@@ -36,13 +36,17 @@ public class RegisterService {
     	 return code;
     	 
      }
-	    public static void main(String[] args){
-            RegisterService ser = new RegisterService();
-	    	
-	    	String result = "Restful example : "+ ser.GenerateCode("4083002033");
-	    	System.out.println(result);
-	        
-	      
-	    }
+     
+     public String Register(String strCell, String strCode){
+    	 // judge the cellphone is exist, the code has already use.
+    	 //if it is new user, generate the new code
+    	 CheckCodeDB checkC = new CheckCodeDB();
+    	 String code = checkC.JudgeCode(strCell, strCode);
+    	 if(code == ""){
+    		 return "ERROR";
+    	 }
+    	 return "SUCC";
+    	 
+     }
 
 }

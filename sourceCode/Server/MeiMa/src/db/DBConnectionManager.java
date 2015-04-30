@@ -21,7 +21,7 @@ public class DBConnectionManager {
 	 /**
 	  * init
 	  */
-	 public DBConnectionManager() {
+	 private DBConnectionManager() {
 	  // TODO Auto-generated constructor stub
 	  this.init();
 	 }
@@ -47,7 +47,7 @@ public class DBConnectionManager {
 	 {
 	  DBConnectionPool pool=(DBConnectionPool)pools.get(name);//
 	  if(pool!=null)
-	  pool.freeConnection(con);//
+	     pool.freeConnection(con);//
 	 }
 	 /**
 	  * get connection by name
@@ -61,8 +61,8 @@ public class DBConnectionManager {
 	  pool=(DBConnectionPool)pools.get(name);
 	  con=pool.getConnection();
 	  if(con!=null)
-	  System.out.println("get connection success");
-	  return con;
+	    System.out.println("get connection success");
+	    return con;
 	 }
 	 /**
 	  * get connection by time 
