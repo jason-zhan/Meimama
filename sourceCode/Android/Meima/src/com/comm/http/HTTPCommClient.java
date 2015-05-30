@@ -25,7 +25,7 @@ import android.widget.EditText;
 public class HTTPCommClient {
 
 	
-	 private static  String processURL="http://192.168.1.116:8080/MeiMa/";  
+	 private static  String processURL="http://192.168.1.112:8080/MeiMa/";  
             
        /** 
         *  Called when the activity is first created. 

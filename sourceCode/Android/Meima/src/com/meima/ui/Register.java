@@ -59,11 +59,10 @@ public class Register extends Activity {
 	    		 SmsManager smsManager = SmsManager.getDefault();
 	    		 smsManager.sendTextMessage(mCell.getText().toString(), null, result, null, null);
 		            
-	    		//创建提示框提醒是否登录成功  
 	             AlertDialog.Builder builder=new Builder(Register.this);  
-	             builder.setTitle("提示") 
+	             builder.setTitle("Error") 
 	              .setMessage(result)  
-	             .setPositiveButton("确定", new DialogInterface.OnClickListener() {  
+	             .setPositiveButton("OK", new DialogInterface.OnClickListener() {  
 	                  
 	                @Override  
 	                public void onClick(DialogInterface dialog, int which) {  
@@ -78,10 +77,10 @@ public class Register extends Activity {
 	      	Intent intent = new Intent();
 			intent.setClass(Login.this,Whatsnew.class);
 			startActivity(intent);
-			Toast.makeText(getApplicationContext(), "µÇÂ¼³É¹¦", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "ÂµÃ‡Ã‚Â¼Â³Ã‰Â¹Â¦", Toast.LENGTH_SHORT).show();
 			this.finish();*/
 	      }  
-	    public void login_back(View v) {     //±êÌâÀ¸ ·µ»Ø°´Å¥
+	    public void login_back(View v) {     //Â±ÃªÃŒÃ¢Ã€Â¸ Â·ÂµÂ»Ã˜Â°Â´Ã…Â¥
 	      	this.finish();
 	      }  
 	    public void Register(View v) {     
@@ -94,9 +93,9 @@ public class Register extends Activity {
     		 result = client.Register(mstrCell, mCode.getText().toString());
     		 if(!result.equals("SUCC")){
     			 AlertDialog.Builder builder=new Builder(Register.this);  
-	             builder.setTitle("提示") 
+	             builder.setTitle("æ��ç¤º") 
 	              .setMessage("Code is error, please try again")  
-	             .setPositiveButton("确定", new DialogInterface.OnClickListener() {  
+	             .setPositiveButton("ç¡®å®š", new DialogInterface.OnClickListener() {  
 	                  
 	                @Override  
 	                public void onClick(DialogInterface dialog, int which) {  
