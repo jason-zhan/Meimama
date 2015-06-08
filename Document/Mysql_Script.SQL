@@ -113,7 +113,7 @@ CREATE TABLE `meima`.`dm_userroles` (
 CREATE TABLE `meima`.`checkcode` (
   `idcheckcode` INT NOT NULL AUTO_INCREMENT,
   `cellphone` VARCHAR(45) NULL,
-  `codecode` VARCHAR(45) NULL,
+  `checkcode` VARCHAR(45) NULL,
   `ip` VARCHAR(45) NULL,
   `createAt` TIMESTAMP NULL DEFAULT now(),
   `expireAt` TIMESTAMP NULL,
